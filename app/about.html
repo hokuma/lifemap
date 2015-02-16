@@ -29,21 +29,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">足立生活マップ</a>
+          <a class="navbar-brand" href="/">足立生活マップ</a>
         </div> 
 	<div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="./about.html">このページについて</a></li>
+            <li class="active"><a href="./about.html">このページについて</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-    <div class="container-fluid">
-      <div class="row wrapper" style="height: 100%;">
-        <div id="map"></div>
-	<div class="spot-description" style="display: none;">
-	</div>
+    <div class="container">
+      <div class="row" style="height: 100%;">
+        このページは、<a href="https://github.com/hokuma/" target="_blank">@hokuma</a>が公開されている東京都足立区の施設情報を地図上にマッピングしたものです。マッピングしてほしい情報があれば、PRなりissueなりでリクエストくだされば随時対応します。
       </div>
     </div>
 
@@ -78,7 +76,6 @@
     </script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBu8m-DFrNzEJQYIRkoRyF3mgSNw3sA5cQ&sensor=true"></script>
     <!-- build:js({app,.tmp}) scripts/main.js -->
-    <script src="scripts/main.js"></script>
     <!-- endbuild -->
 </body>
 </html>
