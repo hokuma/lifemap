@@ -9,18 +9,25 @@ function initialize() {
     document.getElementById("map"),
     mapOptions
   );
-  var spots, categories;
+  var markers = {};
   $.ajax('data/spots.csv').done(
     function(data) {
-      spots = Papa.parse(data, {header: true});
-      for(var i in spots.data) {
-	var spot = spots.data[i];
+      var parsed_data = Papa.parse(data, {header: true});
+      for(var i in parsed_data.data) {
+	var spot = parsed_data.data[i];
+	if(spot.category == "") { continue; }
 	var latLng = new google.maps.LatLng(parseFloat(spot.lat), parseFloat(spot.lng));
 	var marker = new google.maps.Marker({
 	  position: latLng,
 	  map: map,
-	  title: spot.name
+	  title: spot.name,
+	  visible: spot.category == 1
 	});
+	if ( markers[spot.category] ) {
+	  markers[spot.category].push(marker);
+	} else {
+	  markers[spot.category] = [marker];
+	}
 	google.maps.event.addListener(marker, 'click', (function(_spot) {
 	  return function() {
 	    var _marker = this;
@@ -36,7 +43,26 @@ function initialize() {
   );
   $.ajax('data/category.csv').done(
     function(data) {
-      /* TODO */
+      $categorySelector = $(".categorySelector select");
+      var parsed_data = Papa.parse(data, {header: true});
+      for(var i in parsed_data.data) {
+	var category = parsed_data.data[i];
+	if(category.id == "") { continue; }
+	$option = $("<option />").val(category.id).text(category.name);
+	$categorySelector.append($option);
+      }
+      $categorySelector.change(function() {
+	$selectedCategory = $(this).val();
+	for(var i in markers) {
+	  var visibility = false;
+	  if(i == $selectedCategory) {
+	    visibility = true;
+	  }
+	  $.each(markers[i], function() {
+	    this.setVisible(visibility);
+	  });
+	}
+      });
     }
   );
 }
